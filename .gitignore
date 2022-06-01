@@ -1,0 +1,21 @@
+# dependencies
+node_modules
+
+# environment
+.env
+
+# ide
+.idea
+
+# os
+.DS_Store
+
+# Hardhat files
+cache
+artifacts
+.secret
+script.js
+
+version.txt
+config/config.json
+key
