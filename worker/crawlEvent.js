@@ -29,6 +29,7 @@ async function run() {
                 return;
             }
         }
+        console.log(`sleep 3s`);
         await sleep(3000)
         run();
     } catch (e) {
