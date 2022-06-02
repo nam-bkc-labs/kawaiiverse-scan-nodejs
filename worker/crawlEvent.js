@@ -6,7 +6,7 @@ const txWorker = require("./tx");
 const teleUtils = require("../utils/teleNoti")
 
 let blockStart = 0;
-
+const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
 async function run() {
     try {
         let blockSyncAt = await settingDB.findOne({});
@@ -29,6 +29,7 @@ async function run() {
                 return;
             }
         }
+        await sleep(3000)
         run();
     } catch (e) {
         console.log(`error function run - e - ${e}`);
