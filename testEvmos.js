@@ -20,8 +20,8 @@ const frc20Function = {
     Approval: '0x8c5be1e5',
     name: '0x06fdde03',
     symbol: '0x95d89b41',
-    decimals: '0x313ce567'
-}
+    decimals: '0x313ce567',
+};
 const frc721Function = {
     Transfer: '0xddf252ad',
     Approval: '0x8c5be1e5',
@@ -36,8 +36,8 @@ const frc721Function = {
     getApproved: '0x081812fc',
     // 'isApprovedForAll': '0x7070ce33',
     supportsInterface: '0x01ffc9a7',
-    totalSupply: '0x18160ddd'
-}
+    totalSupply: '0x18160ddd',
+};
 const trc21Function = {
     totalSupply: '0x18160ddd',
     balanceOf: '0x70a08231',
@@ -53,64 +53,68 @@ const trc21Function = {
     name: '0x06fdde03',
     symbol: '0x95d89b41',
     decimals: '0x313ce567',
-    minFee: '0x24ec7590'
-}
+    minFee: '0x24ec7590',
+};
 
 
 async function test() {
-    let data = await web3.eth.getTransaction("0x5e104ab0deca96c930458ea82e3585cf40e23c837ba0cbc7a7e78a20a76d0e69");
+    let data = await web3.eth.getTransactionReceipt("0x5e104ab0deca96c930458ea82e3585cf40e23c837ba0cbc7a7e78a20a76d0e69");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
-    console.log(data);
+    console.log(JSON.stringify(data));
 
-   //   data = await web3.eth.getTransactionReceipt("0XA22C0713AFCF12866C33FFF6DF3AE4991D349860E9DD5B3BDE6AC9C0CF31D172");
-   //  console.log(data);
-   //
-   // let  code = await web3.eth.getCode("0x6CD7BBc76c13364C359C3F89f5A029ff857Fae50");
-   //  // console.log(data);
-   //  for (const name in tokenFuncs) {
-   //      let codeCheck = tokenFuncs[name];
-   //      codeCheck = codeCheck.replace('0x', '');
-   //      if (code.indexOf(codeCheck) >= 0) {
-   //          console.log("true");
-   //          // return true;
-   //      }
-   //  }
-   //
-   //
-   //  let isTrc21 = true
-   //  for (const trc21 in trc21Function) {
-   //      console.log(trc21);
-   //      let codeCheck = trc21Function[trc21]
-   //      codeCheck = codeCheck.replace('0x', '')
-   //      if (code.indexOf(codeCheck) < 0) {
-   //          isTrc21 = false
-   //          break
-   //      }
-   //  }
-   //  console.log("isTrc21",isTrc21);
-   //
-   //  let isFrc20 = true
-   //  for (const frc20 in frc20Function) {
-   //      let codeCheck = frc20Function[frc20]
-   //      codeCheck = codeCheck.replace('0x', '')
-   //      if (code.indexOf(codeCheck) < 0) {
-   //          isFrc20 = false
-   //          break
-   //      }
-   //  }
-   //  console.log("isFrc20",isFrc20);
-   //
-   //  let isFrc721 = true
-   //  for (const frc721 in frc721Function) {
-   //      let codeCheck = frc721Function[frc721]
-   //      codeCheck = codeCheck.replace('0x', '')
-   //      console.log(codeCheck);
-   //      if (code.indexOf(codeCheck) < 0) {
-   //          isFrc721 = false
-   //          break
-   //      }
-   //  }
-   //  console.log("isFrc721",isFrc721);
+    data = await web3.eth.getCode("0x3A6F3B10Fee1FB9Ddd2FBaac2bDd543523840254");
+    // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
+    console.log(JSON.stringify(data));
+
+    //   data = await web3.eth.getTransactionReceipt("0XA22C0713AFCF12866C33FFF6DF3AE4991D349860E9DD5B3BDE6AC9C0CF31D172");
+    //  console.log(data);
+    //
+    // let  code = await web3.eth.getCode("0x6CD7BBc76c13364C359C3F89f5A029ff857Fae50");
+    //  // console.log(data);
+    //  for (const name in tokenFuncs) {
+    //      let codeCheck = tokenFuncs[name];
+    //      codeCheck = codeCheck.replace('0x', '');
+    //      if (code.indexOf(codeCheck) >= 0) {
+    //          console.log("true");
+    //          // return true;
+    //      }
+    //  }
+    //
+    //
+    //  let isTrc21 = true
+    //  for (const trc21 in trc21Function) {
+    //      console.log(trc21);
+    //      let codeCheck = trc21Function[trc21]
+    //      codeCheck = codeCheck.replace('0x', '')
+    //      if (code.indexOf(codeCheck) < 0) {
+    //          isTrc21 = false
+    //          break
+    //      }
+    //  }
+    //  console.log("isTrc21",isTrc21);
+    //
+    //  let isFrc20 = true
+    //  for (const frc20 in frc20Function) {
+    //      let codeCheck = frc20Function[frc20]
+    //      codeCheck = codeCheck.replace('0x', '')
+    //      if (code.indexOf(codeCheck) < 0) {
+    //          isFrc20 = false
+    //          break
+    //      }
+    //  }
+    //  console.log("isFrc20",isFrc20);
+    //
+    //  let isFrc721 = true
+    //  for (const frc721 in frc721Function) {
+    //      let codeCheck = frc721Function[frc721]
+    //      codeCheck = codeCheck.replace('0x', '')
+    //      console.log(codeCheck);
+    //      if (code.indexOf(codeCheck) < 0) {
+    //          isFrc721 = false
+    //          break
+    //      }
+    //  }
+    //  console.log("isFrc721",isFrc721);
 
 }
 

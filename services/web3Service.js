@@ -14,6 +14,7 @@ module.exports = {
             let data = await web3.eth.getBlock(block);
             return {block: data, err: null};
         } catch (e) {
+            console.log(e);
             return {block: null, err: e};
         }
     },
