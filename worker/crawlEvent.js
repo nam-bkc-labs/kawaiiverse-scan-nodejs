@@ -3,10 +3,11 @@ const logEthDB = require("../models/log_eth");
 const settingDB = require("../models/setting");
 const web3Service = require("../services/web3Service");
 const txWorker = require("./tx");
-const teleUtils = require("../utils/teleNoti")
+const teleUtils = require("../utils/teleNoti");
 
 let blockStart = 0;
 const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
 async function run() {
     try {
         let blockSyncAt = await settingDB.findOne({});
@@ -25,13 +26,14 @@ async function run() {
             let analysisBlockAndTxData = await analysisBlockAndTx(i);
             if (typeof analysisBlockAndTxData !== typeof 1) {
                 console.log(`err sync block ${i} - e - ${analysisBlockAndTxData}`);
-                await teleUtils.sendError(analysisBlockAndTxData)
+                await teleUtils.sendError(analysisBlockAndTxData);
                 return;
             }
+            break;
         }
-        console.log(`sleep 3s`);
-        await sleep(3000)
-        run();
+        // console.log(`sleep 3s`);
+        // await sleep(3000);
+        // run();
     } catch (e) {
         console.log(`error function run - e - ${e}`);
         return;
@@ -40,6 +42,8 @@ async function run() {
 
 async function analysisBlockAndTx(height) {
     try {
+        height = 144574;
+        console.log(height, 144574);
         let blockData = await web3Service.GetBlock(height);
         if (blockData.err != null) {
             console.log(`error when get block data from onchain ${blockData.err}`);
@@ -56,11 +60,14 @@ async function analysisBlockAndTx(height) {
                     return `error when get transaction receipt e- ${txReceipt.err}`;
                 }
                 let analysisTx = await txWorker.analysisTxReceipt(txReceipt.txEthReceiptData);
+                console.log(analysisTx);
                 if (typeof analysisTx === 'object' && analysisTx.length !== 0) {
                     await logEthDB.bulkCreate(analysisTx);
                 } else if (typeof analysisTx !== 'object') {
                     return `error when analysis tx receipt ${blockData.err}`;
                 }
+
+                let analysisTxERC20 = await txWorker.analysisTxTypeERC20(txReceipt.txEthReceiptData);
             }
         }
         let blockSync = await settingDB.findOne({});

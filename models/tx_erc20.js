@@ -1,45 +1,31 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
-const Model = sequelize.define('log_eths', {
+const Model = sequelize.define('tx_erc20s', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
     },
-    block_number: {
-        type: Sequelize.BIGINT,
-    },
-    block_hash: {
-        type: Sequelize.STRING,
-    },
-    transaction_hash: {
-        type: Sequelize.STRING,
-    },
     address: {
         type: Sequelize.STRING,
     },
-    address_cosmos: {
+    tx_hash: {
         type: Sequelize.STRING,
     },
-    data: {
-        type: Sequelize.TEXT,
+    from: {
+        type: Sequelize.STRING,
     },
-    log_index: {
-        type: Sequelize.INTEGER,
+    to: {
+        type: Sequelize.STRING,
     },
-    removed: {
-        type: Sequelize.BOOLEAN,
-    },
-    topics: {
-        type: Sequelize.JSONB,
-    },
-    transaction_index: {
-        type: Sequelize.INTEGER,
+    value: {
+        type: Sequelize.STRING,
     },
     status: {
         type: Sequelize.BOOLEAN,
+        default: false,
     },
     created_at: {
         allowNull: false,

@@ -1,12 +1,21 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
-const Model = sequelize.define('log_eths', {
+const Model = sequelize.define('internal_txes', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
+    },
+    hash: {
+        type: Sequelize.STRING,
+    },
+    from: {
+        type: Sequelize.STRING,
+    },
+    to: {
+        type: Sequelize.STRING,
     },
     block_number: {
         type: Sequelize.BIGINT,
@@ -14,32 +23,8 @@ const Model = sequelize.define('log_eths', {
     block_hash: {
         type: Sequelize.STRING,
     },
-    transaction_hash: {
+    value: {
         type: Sequelize.STRING,
-    },
-    address: {
-        type: Sequelize.STRING,
-    },
-    address_cosmos: {
-        type: Sequelize.STRING,
-    },
-    data: {
-        type: Sequelize.TEXT,
-    },
-    log_index: {
-        type: Sequelize.INTEGER,
-    },
-    removed: {
-        type: Sequelize.BOOLEAN,
-    },
-    topics: {
-        type: Sequelize.JSONB,
-    },
-    transaction_index: {
-        type: Sequelize.INTEGER,
-    },
-    status: {
-        type: Sequelize.BOOLEAN,
     },
     created_at: {
         allowNull: false,
