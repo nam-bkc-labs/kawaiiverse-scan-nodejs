@@ -34,8 +34,8 @@ async function run() {
             }
 
         }
-        console.log(`sleep 3s`);
-        await sleep(3000);
+        console.log(`sleep 5s`);
+        await sleep(5000);
         run();
     } catch (e) {
         console.log(`error function run - e - ${e}`);
