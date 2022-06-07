@@ -1,23 +1,20 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
-const Model = sequelize.define('internal_txes', {
+const Model = sequelize.define('internal_call_txes', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
     },
     hash: {
         type: Sequelize.STRING,
     },
-    block_number: {
-        type: Sequelize.BIGINT,
-    },
-    from: {
+    error: {
         type: Sequelize.STRING,
     },
-    to: {
+    from: {
         type: Sequelize.STRING,
     },
     gas: {
@@ -26,10 +23,10 @@ const Model = sequelize.define('internal_txes', {
     gas_used: {
         type: Sequelize.STRING,
     },
-    output: {
-        type: Sequelize.TEXT,
+    input: {
+        type: Sequelize.STRING,
     },
-    value: {
+    type: {
         type: Sequelize.STRING,
     },
     created_at: {

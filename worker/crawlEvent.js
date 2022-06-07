@@ -1,5 +1,7 @@
 const web3 = require("../connect/web3");
 const logEthDB = require("../models/log_eth");
+const txErc20DB = require("../models/tx_erc20");
+const txErc1155DB = require("../models/tx_erc1155");
 const settingDB = require("../models/setting");
 const web3Service = require("../services/web3Service");
 const txWorker = require("./tx");
@@ -42,8 +44,8 @@ async function run() {
 
 async function analysisBlockAndTx(height) {
     try {
-        height = 144574;
-        console.log(height, 144574);
+        height = 86706;
+        console.log(height, 86706);
         let blockData = await web3Service.GetBlock(height);
         if (blockData.err != null) {
             console.log(`error when get block data from onchain ${blockData.err}`);
@@ -54,20 +56,34 @@ async function analysisBlockAndTx(height) {
         if (blockData.transactions.length !== 0) {
             let txs = blockData.transactions;
             for (let i = 0; i < txs.length; i++) {
+                //get tx receipt
                 let txReceipt = await web3Service.GetTransactionReceipt(txs[i]);
                 if (txReceipt.err != null) {
                     console.log(`error when get transaction receipt`, txReceipt.err);
                     return `error when get transaction receipt e- ${txReceipt.err}`;
                 }
+                //tx receipt
                 let analysisTx = await txWorker.analysisTxReceipt(txReceipt.txEthReceiptData);
-                console.log(analysisTx);
                 if (typeof analysisTx === 'object' && analysisTx.length !== 0) {
                     await logEthDB.bulkCreate(analysisTx);
                 } else if (typeof analysisTx !== 'object') {
                     return `error when analysis tx receipt ${blockData.err}`;
                 }
-
+                //tx erc20
                 let analysisTxERC20 = await txWorker.analysisTxTypeERC20(txReceipt.txEthReceiptData);
+                if (typeof analysisTxERC20 === 'object' && analysisTxERC20.length !== 0) {
+                    await txErc20DB.bulkCreate(analysisTxERC20);
+                } else if (typeof analysisTxERC20 !== 'object') {
+                    return `error when analysis tx erc20 ${analysisTxERC20.err}`;
+                }
+                //tx erc1155
+                let analysisTxERC1155 = await txWorker.analysisTxTypeERC1155(txReceipt.txEthReceiptData);
+                console.log(analysisTxERC1155);
+                if (typeof analysisTxERC1155 === 'object' && analysisTxERC1155.length !== 0) {
+                    await txErc1155DB.bulkCreate(analysisTxERC1155);
+                } else if (typeof analysisTxERC1155 !== 'object') {
+                    return `error when analysis tx erc1155 ${analysisTxERC1155.err}`;
+                }
             }
         }
         let blockSync = await settingDB.findOne({});

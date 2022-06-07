@@ -1,41 +1,33 @@
 'use strict';
-const Sequelize = require('sequelize');
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('tx_erc1155s', {
+        await queryInterface.createTable('internal_call_txes', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            address: {
+            hash: {
                 type: Sequelize.STRING,
             },
-            tx_hash: {
+            error: {
                 type: Sequelize.STRING,
             },
             from: {
                 type: Sequelize.STRING,
             },
-            to: {
+            gas: {
                 type: Sequelize.STRING,
             },
-            tokenId: {
+            gas_used: {
                 type: Sequelize.STRING,
             },
-            value: {
+            input: {
                 type: Sequelize.STRING,
             },
-            log_index: {
-                type: Sequelize.BIGINT,
-            },
-            tx_id: {
+            type: {
                 type: Sequelize.STRING,
-            },
-            status: {
-                type: Sequelize.BOOLEAN,
-                default: false,
             },
             created_at: {
                 allowNull: false,
@@ -48,6 +40,6 @@ module.exports = {
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('tx_erc1155s');
+        await queryInterface.dropTable('internal_call_txes');
     },
 };

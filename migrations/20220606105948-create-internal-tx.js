@@ -11,19 +11,31 @@ module.exports = {
             hash: {
                 type: Sequelize.STRING,
             },
+            block_number: {
+                type: Sequelize.BIGINT,
+            },
             from: {
                 type: Sequelize.STRING,
             },
             to: {
                 type: Sequelize.STRING,
             },
-            block_number: {
-                type: Sequelize.BIGINT,
-            },
-            block_hash: {
+            gas: {
                 type: Sequelize.STRING,
             },
+            gas_used: {
+                type: Sequelize.STRING,
+            },
+            input: {
+                type: Sequelize.TEXT,
+            },
+            output: {
+                type: Sequelize.TEXT,
+            },
             value: {
+                type: Sequelize.STRING,
+            },
+            type: {
                 type: Sequelize.STRING,
             },
             created_at: {

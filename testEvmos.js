@@ -1,5 +1,6 @@
 const Web3 = require("web3");
 const web3 = new Web3("http://167.172.151.137:8545");
+// const web3 = new Web3("https://bsc-dataseed.binance.org/");
 const request = require('request')
 let tokenFuncs = {
     decimals: '0x313ce567', // hex to decimal
@@ -58,7 +59,7 @@ const trc21Function = {
 
 
 async function test() {
-    let data = await web3.eth.getTransaction("0x02D12B96C42BDF59A50DE6AE8C654AE5617CCA40075D7832B279303776292275");
+    let data = await web3.eth.getTransactionReceipt("0xF2933C0BAC6784E4F5AE98342FB355015990F63B1BA46CD2E5BBC125C26F9CDF");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
     console.log(JSON.stringify(data));
 
@@ -68,7 +69,7 @@ async function test() {
         json: {
             jsonrpc: '2.0',
             method: 'debug_traceTransaction',
-            params: ["0x02D12B96C42BDF59A50DE6AE8C654AE5617CCA40075D7832B279303776292275", {tracer: 'callTracer', timeout: '10s'}],
+            params: ["0x53e76f08e1e0b2965b061e3fad748f0c62ff172b150885466d6f27e4368094d3", {tracer: 'callTracer', timeout: '10s'}],
             id: 1
         },
         timeout: 10000
