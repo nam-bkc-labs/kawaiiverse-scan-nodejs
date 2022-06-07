@@ -28,7 +28,7 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             log_index: {
-                type: Sequelize.BIGINT,
+                type: Sequelize.STRING,
             },
             tx_id: {
                 type: Sequelize.STRING,

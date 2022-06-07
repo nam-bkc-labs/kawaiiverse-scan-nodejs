@@ -29,7 +29,7 @@ module.exports = {
                 default: false,
             },
             log_index: {
-                type: Sequelize.BIGINT,
+                type: Sequelize.STRING,
             },
             tx_id: {
                 type: Sequelize.STRING,

@@ -28,7 +28,7 @@ const Model = sequelize.define('tx_erc20s', {
         default: false,
     },
     log_index: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.STRING,
     },
     tx_id: {
         type: Sequelize.STRING,
