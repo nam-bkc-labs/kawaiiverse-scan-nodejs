@@ -53,7 +53,7 @@ module.exports = {
                         let isCheckExist = await txErc20DB.findOne({
                             where: {
                                 tx_hash: data.transactionHash.toUpperCase(),
-                                log_index: logs[i].logIndex,
+                                log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                             },
                         });
@@ -65,7 +65,7 @@ module.exports = {
                                 to: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
                                 value: web3.utils.fromWei(web3.utils.hexToNumberString(logs[i].data), "ether"),
                                 status: data.status,
-                                log_index: logs[i].logIndex,
+                                log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                                 created_at: new Date(),
                                 updated_at: new Date(),
@@ -77,6 +77,7 @@ module.exports = {
             }
             return txErc20;
         } catch (e) {
+            console.log(e);
             return `error when analysis tx type ERC20 - ${e}`;
         }
     },
@@ -90,7 +91,7 @@ module.exports = {
                         let isCheckExist = await txErc1155DB.findOne({
                             where: {
                                 tx_hash: data.transactionHash.toUpperCase(),
-                                log_index: logs[i].logIndex,
+                                log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                             },
                         });
@@ -103,7 +104,7 @@ module.exports = {
                                 tokenId: web3.utils.hexToNumberString(logs[i].data.substring(0, 66)),
                                 value: web3.utils.hexToNumberString("0x" + logs[i].data.substring(67, 130)),
                                 status: data.status,
-                                log_index: logs[i].logIndex,
+                                log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                                 created_at: new Date(),
                                 updated_at: new Date(),
