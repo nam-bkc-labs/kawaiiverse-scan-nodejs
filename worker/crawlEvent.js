@@ -34,6 +34,8 @@ async function run() {
             }
 
         }
+        console.log(`sleep 3s`);
+        await sleep(3000);
         run();
     } catch (e) {
         console.log(`error function run - e - ${e}`);
@@ -81,7 +83,7 @@ async function analysisBlockAndTx(height) {
                     return `error when analysis tx erc1155 ${analysisTxERC1155.err}`;
                 }
                 // debugInternalTx
-                let debugInternalTx = await txWorker.debugTxInternal(txs[i],height)
+                let debugInternalTx = await txWorker.debugTxInternal(txs[i], height);
                 if (typeof debugInternalTx === 'object' && debugInternalTx.length !== 0) {
                     await internalTxDB.bulkCreate(debugInternalTx);
                 } else if (typeof debugInternalTx !== 'object') {
