@@ -26,6 +26,9 @@ module.exports = {
             gas_used: {
                 type: Sequelize.STRING,
             },
+            error: {
+                type: Sequelize.TEXT,
+            },
             input: {
                 type: Sequelize.TEXT,
             },

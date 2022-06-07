@@ -1,7 +1,7 @@
 const Web3 = require("web3");
 const web3 = new Web3("http://167.172.151.137:8545");
 // const web3 = new Web3("https://bsc-dataseed.binance.org/");
-const request = require('request')
+const request = require('request');
 let tokenFuncs = {
     decimals: '0x313ce567', // hex to decimal
     symbol: '0x95d89b41', // hex to ascii
@@ -21,8 +21,8 @@ const frc20Function = {
     Approval: '0x8c5be1e5',
     name: '0x06fdde03',
     symbol: '0x95d89b41',
-    decimals: '0x313ce567'
-}
+    decimals: '0x313ce567',
+};
 const frc721Function = {
     Transfer: '0xddf252ad',
     Approval: '0x8c5be1e5',
@@ -37,8 +37,8 @@ const frc721Function = {
     getApproved: '0x081812fc',
     // 'isApprovedForAll': '0x7070ce33',
     supportsInterface: '0x01ffc9a7',
-    totalSupply: '0x18160ddd'
-}
+    totalSupply: '0x18160ddd',
+};
 const trc21Function = {
     totalSupply: '0x18160ddd',
     balanceOf: '0x70a08231',
@@ -54,29 +54,28 @@ const trc21Function = {
     name: '0x06fdde03',
     symbol: '0x95d89b41',
     decimals: '0x313ce567',
-    minFee: '0x24ec7590'
-}
+    minFee: '0x24ec7590',
+};
 
 
 async function test() {
-    let data = await web3.eth.getTransactionReceipt("0xF2933C0BAC6784E4F5AE98342FB355015990F63B1BA46CD2E5BBC125C26F9CDF");
+    let data = await web3.eth.getTransactionReceipt("0x53e76f08e1e0b2965b061e3fad748f0c62ff172b150885466d6f27e4368094d3");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
     console.log(JSON.stringify(data));
 
 
 
-    request.post("http://167.172.151.137:8545", {
-        json: {
-            jsonrpc: '2.0',
-            method: 'debug_traceTransaction',
-            params: ["0x53e76f08e1e0b2965b061e3fad748f0c62ff172b150885466d6f27e4368094d3", {tracer: 'callTracer', timeout: '10s'}],
-            id: 1
-        },
-        timeout: 10000
-    }, (error, res, body) => {
-        console.log(JSON.stringify(body));
-    })
+    // request.post("https://endpoint1.kawaii.global", {
+    //     json: {
+    //         jsonrpc: '2.0',
+    //         method: 'debug_traceTransaction',
+    //         params: ["0xa3d456546877457c05166f61c541eed1b15cc71733644fa61e37a77e4ef277ca", {tracer: 'callTracer', timeout: '10s'}],
+    //         id: 1
+    //     },
+    //     timeout: 10000
+    // }, (error, res, body) => {
+    //     console.log(JSON.stringify(body));
+    // })
 }
 
 test();
-

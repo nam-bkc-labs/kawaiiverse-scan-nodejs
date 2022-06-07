@@ -1,7 +1,10 @@
+require('dotenv').config();
 const web3 = require("../connect/web3").web3();
 const txErc20DB = require("../models/tx_erc20");
 const txErc1155DB = require("../models/tx_erc1155");
+const internalTxDB = require("../models/internal_tx");
 const logEthDB = require("../models/log_eth");
+const axios = require('axios');
 module.exports = {
     analysisTxReceipt: async (data) => {
         try {
@@ -115,4 +118,84 @@ module.exports = {
             return `error when analysis tx type ERC1155 - ${e}`;
         }
     },
+    debugTxInternal: async (hash, height) => {
+        try {
+            let data = await axios.post(`${process.env.RPC_ORAIE}`, {
+                "jsonrpc": "2.0",
+                "method": "debug_traceTransaction",
+                "params": [
+                    `${hash}`,
+                    {
+                        "tracer": "callTracer",
+                        "timeout": "10s",
+                    },
+                ],
+                "id": 1,
+            });
+            data = data.data;
+            const res = data.result;
+            let internalTx = [];
+            internalTx.push({
+                hash: hash.toUpperCase(),
+                block_number: height,
+                from: (res.from || '').toLowerCase(),
+                to: (res.to || '').toLowerCase(),
+                value: web3.utils.hexToNumberString(res.value),
+                gas: (res.gas || ''),
+                gas_used: (res.gasUsed || ''),
+                error: (res.error || ''),
+                input: (res.input || ''),
+                output: (res.output || ''),
+                type: (res.type || ''),
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+            if (Object.prototype.hasOwnProperty.call(res, 'calls')) {
+                const calls = res.calls;
+                let analysisInternal = await listInternal(calls, hash, height);
+                internalTx = internalTx.concat(analysisInternal);
+            }
+            if (internalTx.length > 0) {
+                await internalTxDB.destroy({
+                    where: {hash: hash.toUpperCase()},
+                });
+            }
+            // return
+            return internalTx;
+        } catch (e) {
+            console.log(e);
+            return `error when analysis tx type ERC1155 - ${e}`;
+        }
+    },
+
 };
+
+async function listInternal(resultCalls, txHash, blockNumber) {
+    let internals = [];
+    for (let i = 0; i < resultCalls.length; i++) {
+        const call = resultCalls[i];
+        // if (Object.prototype.hasOwnProperty.call(call, 'value') && call.value !== '0x0') {
+        internals.push({
+            hash: txHash.toUpperCase(),
+            block_number: blockNumber,
+            from: (call.from || '').toLowerCase(),
+            to: (call.to || '').toLowerCase(),
+            value: web3.utils.hexToNumberString(call.value),
+            gas: (call.gas || ''),
+            gas_used: (call.gasUsed || ''),
+            error: (call.error || ''),
+            input: (call.input || ''),
+            output: (call.output || ''),
+            type: (call.type || ''),
+            created_at: new Date(),
+            updated_at: new Date(),
+
+        });
+        // }
+        if (call.calls) {
+            const childInternal = await listInternal(call.calls, txHash, blockNumber);
+            internals = internals.concat(childInternal);
+        }
+    }
+    return internals;
+}

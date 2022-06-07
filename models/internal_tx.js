@@ -26,10 +26,19 @@ const Model = sequelize.define('internal_txes', {
     gas_used: {
         type: Sequelize.STRING,
     },
+    error: {
+        type: Sequelize.TEXT,
+    },
+    input: {
+        type: Sequelize.TEXT,
+    },
     output: {
         type: Sequelize.TEXT,
     },
     value: {
+        type: Sequelize.STRING,
+    },
+    type: {
         type: Sequelize.STRING,
     },
     created_at: {
