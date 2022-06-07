@@ -101,7 +101,7 @@ module.exports = {
                                 tx_hash: logs[i].transactionHash.toUpperCase(),
                                 from: "0x" + logs[i].topics[1].substring(26, 66).toLowerCase(),
                                 to: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
-                                tokenId: web3.utils.hexToNumberString(logs[i].data.substring(0, 66)),
+                                token_id: web3.utils.hexToNumberString(logs[i].data.substring(0, 66)),
                                 value: web3.utils.hexToNumberString("0x" + logs[i].data.substring(67, 130)),
                                 status: data.status,
                                 log_index: logs[i].logIndex.toString(),

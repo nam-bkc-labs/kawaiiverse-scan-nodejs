@@ -20,7 +20,7 @@ const Model = sequelize.define('tx_erc1155s', {
     to: {
         type: Sequelize.STRING,
     },
-    tokenId: {
+    token_id: {
         type: Sequelize.STRING,
     },
     value: {

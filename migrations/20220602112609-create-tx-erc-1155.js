@@ -21,7 +21,7 @@ module.exports = {
             to: {
                 type: Sequelize.STRING,
             },
-            tokenId: {
+            token_id: {
                 type: Sequelize.STRING,
             },
             value: {
