@@ -40,7 +40,7 @@ module.exports = {
             }
             return txReceipt;
         } catch (e) {
-            return e;
+            return `error when analysis tx receipt - ${e}`;
         }
     },
     analysisTxTypeERC20: async (data) => {
