@@ -33,6 +33,9 @@ const Model = sequelize.define('tx_erc20s', {
     tx_id: {
         type: Sequelize.STRING,
     },
+    timestamp: {
+        type: Sequelize.STRING,
+    },
     created_at: {
         allowNull: false,
         type: Sequelize.DATE,

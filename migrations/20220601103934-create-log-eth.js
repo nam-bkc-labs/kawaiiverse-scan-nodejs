@@ -41,6 +41,9 @@ module.exports = {
             status: {
                 type: Sequelize.BOOLEAN,
             },
+            timestamp: {
+                type: Sequelize.STRING,
+            },
             created_at: {
                 allowNull: false,
                 type: Sequelize.DATE,

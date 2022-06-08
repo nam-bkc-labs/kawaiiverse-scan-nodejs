@@ -6,7 +6,7 @@ const internalTxDB = require("../models/internal_tx");
 const logEthDB = require("../models/log_eth");
 const axios = require('axios');
 module.exports = {
-    analysisTxReceipt: async (data) => {
+    analysisTxReceipt: async (data, timestamp) => {
         try {
             let txReceipt = [];
             if (data.logs.length !== 0) {
@@ -31,6 +31,7 @@ module.exports = {
                             removed: logs[i].removed,
                             topics: logs[i].topics,
                             status: data.status,
+                            timestamp: timestamp,
                             transaction_index: logs[i].transactionIndex,
                             created_at: new Date(),
                             updated_at: new Date(),
@@ -43,7 +44,7 @@ module.exports = {
             return `error when analysis tx receipt - ${e}`;
         }
     },
-    analysisTxTypeERC20: async (data) => {
+    analysisTxTypeERC20: async (data, timestamp) => {
         try {
             let txErc20 = [];
             if (data.logs.length !== 0) {
@@ -65,6 +66,7 @@ module.exports = {
                                 to: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
                                 value: web3.utils.fromWei(web3.utils.hexToNumberString(logs[i].data), "ether"),
                                 status: data.status,
+                                timestamp: timestamp,
                                 log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                                 created_at: new Date(),
@@ -81,7 +83,7 @@ module.exports = {
             return `error when analysis tx type ERC20 - ${e}`;
         }
     },
-    analysisTxTypeERC1155: async (data) => {
+    analysisTxTypeERC1155: async (data, timestamp) => {
         try {
             let txErc1155 = [];
             if (data.logs.length !== 0) {
@@ -104,6 +106,7 @@ module.exports = {
                                 token_id: web3.utils.hexToNumberString(logs[i].data.substring(0, 66)),
                                 value: web3.utils.hexToNumberString("0x" + logs[i].data.substring(67, 130)),
                                 status: data.status,
+                                timestamp: timestamp,
                                 log_index: logs[i].logIndex.toString(),
                                 tx_id: logs[i].id,
                                 created_at: new Date(),
@@ -119,7 +122,7 @@ module.exports = {
             return `error when analysis tx type ERC1155 - ${e}`;
         }
     },
-    debugTxInternal: async (hash, height) => {
+    debugTxInternal: async (hash, height, timestamp) => {
         try {
             let data = await axios.post(`${process.env.RPC_ORAIE}`, {
                 "jsonrpc": "2.0",
@@ -148,12 +151,13 @@ module.exports = {
                 input: (res.input || ''),
                 output: (res.output || ''),
                 type: (res.type || ''),
+                timestamp: timestamp,
                 created_at: new Date(),
                 updated_at: new Date(),
             });
             if (Object.prototype.hasOwnProperty.call(res, 'calls')) {
                 const calls = res.calls;
-                let analysisInternal = await listInternal(calls, hash, height);
+                let analysisInternal = await listInternal(calls, hash, height, timestamp);
                 internalTx = internalTx.concat(analysisInternal);
             }
             if (internalTx.length > 0) {
@@ -171,7 +175,7 @@ module.exports = {
 
 };
 
-async function listInternal(resultCalls, txHash, blockNumber) {
+async function listInternal(resultCalls, txHash, blockNumber, timestamp) {
     let internals = [];
     for (let i = 0; i < resultCalls.length; i++) {
         const call = resultCalls[i];
@@ -188,13 +192,14 @@ async function listInternal(resultCalls, txHash, blockNumber) {
             input: (call.input || ''),
             output: (call.output || ''),
             type: (call.type || ''),
+            timestamp: timestamp,
             created_at: new Date(),
             updated_at: new Date(),
 
         });
         // }
         if (call.calls) {
-            const childInternal = await listInternal(call.calls, txHash, blockNumber);
+            const childInternal = await listInternal(call.calls, txHash, blockNumber, timestamp);
             internals = internals.concat(childInternal);
         }
     }

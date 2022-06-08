@@ -41,6 +41,9 @@ const Model = sequelize.define('internal_txes', {
     type: {
         type: Sequelize.STRING,
     },
+    timestamp: {
+        type: Sequelize.STRING,
+    },
     created_at: {
         allowNull: false,
         type: Sequelize.DATE,

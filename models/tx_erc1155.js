@@ -32,6 +32,9 @@ const Model = sequelize.define('tx_erc1155s', {
     tx_id: {
         type: Sequelize.STRING,
     },
+    timestamp: {
+        type: Sequelize.STRING,
+    },
     status: {
         type: Sequelize.BOOLEAN,
         default: false,

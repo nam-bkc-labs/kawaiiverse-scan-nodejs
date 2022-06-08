@@ -51,7 +51,6 @@ async function analysisBlockAndTx(height) {
             return `error when get block data from onchain ${blockData.err}`;
         }
         blockData = blockData.block;
-
         if (blockData.transactions.length !== 0) {
             let txs = blockData.transactions;
             for (let i = 0; i < txs.length; i++) {
@@ -62,28 +61,28 @@ async function analysisBlockAndTx(height) {
                     return `error when get transaction receipt e- ${txReceipt.err}`;
                 }
                 //tx receipt
-                let analysisTx = await txWorker.analysisTxReceipt(txReceipt.txEthReceiptData);
+                let analysisTx = await txWorker.analysisTxReceipt(txReceipt.txEthReceiptData, blockData.timestamp);
                 if (typeof analysisTx === 'object' && analysisTx.length !== 0) {
                     await logEthDB.bulkCreate(analysisTx);
                 } else if (typeof analysisTx !== 'object') {
                     return `error when analysis tx receipt ${blockData.err}`;
                 }
                 //tx erc20
-                let analysisTxERC20 = await txWorker.analysisTxTypeERC20(txReceipt.txEthReceiptData);
+                let analysisTxERC20 = await txWorker.analysisTxTypeERC20(txReceipt.txEthReceiptData, blockData.timestamp);
                 if (typeof analysisTxERC20 === 'object' && analysisTxERC20.length !== 0) {
                     await txErc20DB.bulkCreate(analysisTxERC20);
                 } else if (typeof analysisTxERC20 !== 'object') {
                     return `error when analysis tx erc20 ${analysisTxERC20.err}`;
                 }
                 //tx erc1155
-                let analysisTxERC1155 = await txWorker.analysisTxTypeERC1155(txReceipt.txEthReceiptData);
+                let analysisTxERC1155 = await txWorker.analysisTxTypeERC1155(txReceipt.txEthReceiptData, blockData.timestamp);
                 if (typeof analysisTxERC1155 === 'object' && analysisTxERC1155.length !== 0) {
                     await txErc1155DB.bulkCreate(analysisTxERC1155);
                 } else if (typeof analysisTxERC1155 !== 'object') {
                     return `error when analysis tx erc1155 ${analysisTxERC1155.err}`;
                 }
                 // debugInternalTx
-                let debugInternalTx = await txWorker.debugTxInternal(txs[i], height);
+                let debugInternalTx = await txWorker.debugTxInternal(txs[i], height, blockData.timestamp);
                 if (typeof debugInternalTx === 'object' && debugInternalTx.length !== 0) {
                     await internalTxDB.bulkCreate(debugInternalTx);
                 } else if (typeof debugInternalTx !== 'object') {

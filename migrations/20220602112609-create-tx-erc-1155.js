@@ -33,6 +33,9 @@ module.exports = {
             tx_id: {
                 type: Sequelize.STRING,
             },
+            timestamp: {
+                type: Sequelize.STRING,
+            },
             status: {
                 type: Sequelize.BOOLEAN,
                 default: false,

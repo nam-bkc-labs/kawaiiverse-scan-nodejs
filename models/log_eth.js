@@ -38,6 +38,9 @@ const Model = sequelize.define('log_eths', {
     transaction_index: {
         type: Sequelize.INTEGER,
     },
+    timestamp: {
+        type: Sequelize.STRING,
+    },
     status: {
         type: Sequelize.BOOLEAN,
     },
