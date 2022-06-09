@@ -59,7 +59,7 @@ const trc21Function = {
 
 
 async function test() {
-    let data = await web3.eth.getTransactionReceipt("0x4C7F907612168742DFAEC02CD65B83CD02F09314FA8B76B0FE13384947A490C5");
+    let data = await web3.eth.getTransactionReceipt("0X153A4CF7F189238B8B531E546BC42F93253E824686E3E997547F0AE5C5C5A09E");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
     console.log(JSON.stringify(data));
 
