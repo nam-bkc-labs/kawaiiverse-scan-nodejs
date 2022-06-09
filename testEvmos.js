@@ -59,10 +59,9 @@ const trc21Function = {
 
 
 async function test() {
-    let data = await web3.eth.getTransactionReceipt("0XE970D6E6E6A837174FA824EB9736457E713B33D0CDC629AC6AC11429092B9211");
+    let data = await web3.eth.getTransactionReceipt("0x4C7F907612168742DFAEC02CD65B83CD02F09314FA8B76B0FE13384947A490C5");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
     console.log(JSON.stringify(data));
-
 
 
     // request.post("https://endpoint1.kawaii.global", {
@@ -76,6 +75,12 @@ async function test() {
     // }, (error, res, body) => {
     //     console.log(JSON.stringify(body));
     // })
+    let account = "oraie183wxk4cvrkjxn69jfghga5euy79a5v3zsh204g";
+    var responseData = Buffer.from(account, 'utf8');
+    var enc = new TextEncoder("utf-8").encode(account);
+    console.log(enc);
+    console.log(responseData);
+
 }
 
 test();

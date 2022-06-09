@@ -101,8 +101,8 @@ module.exports = {
                             txErc1155.push({
                                 address: logs[i].address.toLowerCase(),
                                 tx_hash: logs[i].transactionHash.toUpperCase(),
-                                from: "0x" + logs[i].topics[1].substring(26, 66).toLowerCase(),
-                                to: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
+                                from: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
+                                to: "0x" + logs[i].topics[3].substring(26, 66).toLowerCase(),
                                 token_id: web3.utils.hexToNumberString(logs[i].data.substring(0, 66)),
                                 value: web3.utils.hexToNumberString("0x" + logs[i].data.substring(67, 130)),
                                 status: data.status,
