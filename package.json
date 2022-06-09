@@ -26,6 +26,7 @@
     "@truffle/hdwallet-provider": "1.2.3",
     "abi-decoder": "^2.3.0",
     "axios": "^0.24.0",
+    "bech32-converting": "^1.0.8",
     "body-parser": "^1.18.3",
     "child_process": "^1.0.2",
     "compression": "^1.7.4",
