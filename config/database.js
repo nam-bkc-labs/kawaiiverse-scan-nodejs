@@ -9,6 +9,7 @@ const sequelize = new Sequelize(process.env.DB_TABLE, process.env.DB_USER, proce
     define: {
         //prevent sequelize from pluralizing table names
         freezeTableName: true,
+        id: false,
         createdAt: false,
         updatedAt: false,
     },

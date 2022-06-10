@@ -65,9 +65,9 @@ const secp256k1 = require('secp256k1');
 const bech32Converting = require("bech32-converting");
 
 async function test() {
-    // let data = await web3.eth.getTransactionReceipt("0X153A4CF7F189238B8B531E546BC42F93253E824686E3E997547F0AE5C5C5A09E");
+    let data = await web3.eth.getTransaction("0x60ec4755a97c98ebf16178fa153a8886746d0f9820b30a1cc19112fc2b835bf4");
     // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
-    // console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     //
 
     // request.post("https://endpoint1.kawaii.global", {
