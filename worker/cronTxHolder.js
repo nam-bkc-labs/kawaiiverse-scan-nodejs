@@ -48,7 +48,7 @@ async function run() {
             await tokenModel.update({
                 hash: "0x2c4892e981de30f83D813992231641997136D615".toLowerCase(),
                 tx_count: totalTx,
-                total_holder: 0,
+                total_holder: total,
                 status: "ACTIVE",
                 type: "erc1155",
                 updated_at: new Date(),
@@ -61,7 +61,7 @@ async function run() {
             await tokenModel.create({
                 hash: "0x2c4892e981de30f83D813992231641997136D615".toLowerCase(),
                 tx_count: totalTx,
-                total_holder: 0,
+                total_holder: total,
                 status: "ACTIVE",
                 type: "erc1155",
                 created_at: new Date(),
