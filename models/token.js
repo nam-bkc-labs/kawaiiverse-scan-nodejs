@@ -2,9 +2,9 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
 const Model = sequelize.define('tokens', {
-    hash: {type: Sequelize.STRING},
-    tx_count: {type: Sequelize.STRING},
-    total_holder: Number,
+    hash: {type: Sequelize.STRING, primaryKey: true},
+    tx_count: {type: Sequelize.BIGINT},
+    total_holder: {type: Sequelize.BIGINT},
     status: {type: Sequelize.STRING},
     type: {type: Sequelize.STRING},
     created_at: {
@@ -15,6 +15,8 @@ const Model = sequelize.define('tokens', {
         allowNull: false,
         type: Sequelize.DATE,
     },
+}, {
+    freezeTableName: true,
 });
 
 module.exports = Model;

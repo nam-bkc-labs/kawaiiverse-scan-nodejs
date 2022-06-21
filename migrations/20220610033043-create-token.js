@@ -1,10 +1,10 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('token', {
+        await queryInterface.createTable('tokens', {
             hash: {type: Sequelize.STRING},
-            tx_count: {type: Sequelize.STRING},
-            total_holder: Number,
+            tx_count: {type: Sequelize.BIGINT},
+            total_holder: {type: Sequelize.BIGINT},
             status: {type: Sequelize.STRING},
             type: {type: Sequelize.STRING},
             created_at: {
