@@ -1,6 +1,7 @@
 const web3 = require("../connect/web3");
 const logEthDB = require("../models/log_eth");
 const txErc20DB = require("../models/tx_erc20");
+const txErc721DB = require("../models/tx_erc721");
 const txErc1155DB = require("../models/tx_erc1155");
 const internalTxDB = require("../models/internal_tx");
 const settingDB = require("../models/setting");
@@ -73,6 +74,13 @@ async function analysisBlockAndTx(height) {
                     await txErc20DB.bulkCreate(analysisTxERC20);
                 } else if (typeof analysisTxERC20 !== 'object') {
                     return `error when analysis tx erc20 ${analysisTxERC20.err}`;
+                }
+                //tx erc721
+                let analysisTxERC721 = await txWorker.analysisTxTypeERC721(txReceipt.txEthReceiptData, blockData.timestamp);
+                if (typeof analysisTxERC721 === 'object' && analysisTxERC721.length !== 0) {
+                    await txErc721DB.bulkCreate(analysisTxERC721);
+                } else if (typeof analysisTxERC721 !== 'object') {
+                    return `error when analysis tx erc721 ${analysisTxERC721.err}`;
                 }
                 //tx erc1155
                 let analysisTxERC1155 = await txWorker.analysisTxTypeERC1155(txReceipt.txEthReceiptData, blockData.timestamp);

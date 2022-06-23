@@ -1,9 +1,14 @@
 require('dotenv').config();
 const web3 = require("../connect/web3").web3();
 const txErc20DB = require("../models/tx_erc20");
+const txErc721DB = require("../models/tx_erc721");
 const txErc1155DB = require("../models/tx_erc1155");
 const internalTxDB = require("../models/internal_tx");
 const logEthDB = require("../models/log_eth");
+const tokenDB = require("../models/token");
+
+const tokenTypeHelper = require("../helpers/tokenTypeHelper");
+
 const axios = require('axios');
 module.exports = {
     analysisTxReceipt: async (data, timestamp) => {
@@ -51,6 +56,19 @@ module.exports = {
                 let logs = data.logs;
                 for (let i = 0; i < logs.length; i++) {
                     if (logs[i].topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef") {
+                        let isCheckErc20DB = await tokenDB.findOne({
+                            where: {
+                                hash: logs[i].address.toLowerCase(),
+                                type: "erc20",
+                            },
+                        });
+                        if (!isCheckErc20DB) {
+                            let code = await web3.eth.getCode(logs[i].address.toLowerCase());
+                            let isCheckErcHelper = await tokenTypeHelper.isErc20(code);
+                            if (!isCheckErcHelper) {
+                                continue;
+                            }
+                        }
                         let isCheckExist = await txErc20DB.findOne({
                             where: {
                                 tx_hash: data.transactionHash.toUpperCase(),
@@ -81,6 +99,58 @@ module.exports = {
         } catch (e) {
             console.log(e);
             return `error when analysis tx type ERC20 - ${e}`;
+        }
+    },
+    analysisTxTypeERC721: async (data, timestamp) => {
+        try {
+            let txErc721 = [];
+            if (data.logs.length !== 0) {
+                let logs = data.logs;
+                for (let i = 0; i < logs.length; i++) {
+                    if (logs[i].topics[0] === "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef") {
+                        let isCheckErc721DB = await tokenDB.findOne({
+                            where: {
+                                hash: logs[i].address.toLowerCase(),
+                                type: "erc721",
+                            },
+                        });
+                        if (!isCheckErc721DB) {
+                            let code = await web3.eth.getCode(logs[i].address.toLowerCase());
+                            let isCheckErcHelper = await tokenTypeHelper.isErc721(code);
+                            if (!isCheckErcHelper) {
+                                continue;
+                            }
+                        }
+                        let isCheckExist = await txErc721DB.findOne({
+                            where: {
+                                tx_hash: data.transactionHash.toUpperCase(),
+                                log_index: logs[i].logIndex.toString(),
+                                tx_id: logs[i].id,
+                            },
+                        });
+                        if (!isCheckExist) {
+                            txErc721.push({
+                                address: logs[i].address.toLowerCase(),
+                                tx_hash: logs[i].transactionHash.toUpperCase(),
+                                from: "0x" + logs[i].topics[1].substring(26, 66).toLowerCase(),
+                                to: "0x" + logs[i].topics[2].substring(26, 66).toLowerCase(),
+                                value: web3.utils.hexToNumberString(logs[i].topics[3]),
+                                status: data.status,
+                                timestamp: timestamp,
+                                log_index: logs[i].logIndex.toString(),
+                                tx_id: logs[i].id,
+                                created_at: new Date(),
+                                updated_at: new Date(),
+                            });
+                        }
+                    }
+
+                }
+            }
+            return txErc721;
+        } catch (e) {
+            console.log(e);
+            return `error when analysis tx type erc721 - ${e}`;
         }
     },
     analysisTxTypeERC1155: async (data, timestamp) => {

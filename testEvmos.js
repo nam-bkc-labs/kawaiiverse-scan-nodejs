@@ -1,5 +1,5 @@
 const Web3 = require("web3");
-const web3 = new Web3("https://rpc-2.factorychain.io");
+const web3 = new Web3("https://endpoint1.kawaii.global");
 // const web3 = new Web3("https://bsc-dataseed.binance.org/");
 const request = require('request');
 let tokenFuncs = {
@@ -64,12 +64,13 @@ const secp256k1 = require('secp256k1');
 
 const bech32Converting = require("bech32-converting");
 
+const tokenType = require("./helpers/tokenTypeHelper")
+
 async function test() {
-    let data = await web3.eth.getBalance("0xbfb15DbD44D32d264E9f6D283A70D9A6D6fcC522");
-    // let data = await web3.eth.getBalance("0x3c5c6b570c1da469e8b24a2e8ed33c278bda3222");
-    console.log(JSON.stringify(data));
+    let data = await web3.eth.getTransactionReceipt("0xE4644D26D8BFC13F9A16162F8017562917D64DE35E68AF6DBA97EBFD7E64C0D8");
     //
 
+    console.log(JSON.stringify(data));
     // request.post("https://endpoint1.kawaii.global", {
     //     json: {
     //         jsonrpc: '2.0',
@@ -88,6 +89,8 @@ async function test() {
     // console.log(ethAddr);
     // let cosmos = converter('oraie').toBech32(ethAddr)
     // console.log(cosmos);
+
+    // console.log(await tokenType.isErc721(data));
 }
 
 test();
