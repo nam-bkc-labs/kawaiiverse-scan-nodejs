@@ -92,14 +92,14 @@ async function run() {
                     updated_at: new Date(),
                 }, {
                     where: {
-                        hash: tokenData[k].toLowerCase(),
+                        hash: tokenData[k].hash.toLowerCase(),
                     },
                 });
             }
         }
 
         console.log("sleep 1h");
-        await sleep(3600000);
+        await sleep(7200000);
         run();
     } catch (e) {
         console.log(e);
