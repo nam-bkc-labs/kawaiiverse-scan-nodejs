@@ -57,7 +57,7 @@ async function run() {
             if (tokenData[k].type === "erc721") {
                 let Kawaii721Contract = new web3.eth.Contract(abiKawaii721, tokenData[k].hash);
                 for (let i = 0; i < accountEth.length; i++) {
-                    let isCheck = await Kawaii721Contract.methods.balanceOf(accountEth[i].hash);
+                    let isCheck = await Kawaii721Contract.methods.balanceOf(accountEth[i].hash).call();
                     if (Number(isCheck) > 0) {
                         total = total + 1;
                         break;
@@ -72,7 +72,7 @@ async function run() {
             if (tokenData[k].type === "erc20") {
                 let ERC20Contract = new web3.eth.Contract(abiERC20, tokenData[k].hash);
                 for (let i = 0; i < accountEth.length; i++) {
-                    let isCheck = await ERC20Contract.methods.balanceOf(accountEth[i].hash);
+                    let isCheck = await ERC20Contract.methods.balanceOf(accountEth[i].hash).call();
                     if (Number(isCheck) > 0) {
                         total = total + 1;
                         break;
