@@ -35,6 +35,15 @@ const data = [{
         created_at: new Date(),
         updated_at: new Date(),
     },
+    {
+        hash: "0xc4AD58EAa53fA146698111FfeEfBe14740575Ac6".toLowerCase(), //test
+        tx_count: 0,
+        total_holder: 0,
+        status: "ACTIVE",
+        type: "erc721",
+        created_at: new Date(),
+        updated_at: new Date(),
+    },
 ];
 
 async function run() {
