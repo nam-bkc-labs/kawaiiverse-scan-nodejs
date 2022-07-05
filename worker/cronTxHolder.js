@@ -60,7 +60,6 @@ async function run() {
                     let isCheck = await Kawaii721Contract.methods.balanceOf(accountEth[i].hash).call();
                     if (Number(isCheck) > 0) {
                         total = total + 1;
-                        break;
                     }
                 }
                 totalTx = await txErc721Model.count({
@@ -69,13 +68,14 @@ async function run() {
                     },
                 });
             }
+
             if (tokenData[k].type === "erc20") {
+                console.log(tokenData[k].hash);
                 let ERC20Contract = new web3.eth.Contract(abiERC20, tokenData[k].hash);
                 for (let i = 0; i < accountEth.length; i++) {
                     let isCheck = await ERC20Contract.methods.balanceOf(accountEth[i].hash).call();
                     if (Number(isCheck) > 0) {
                         total = total + 1;
-                        break;
                     }
                 }
                 totalTx = await txErc20Model.count({
