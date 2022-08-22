@@ -3,47 +3,40 @@ const accountEthModel = require('../models/account_eth');
 const teleUtils = require('../utils/teleNoti');
 
 module.exports = {
-    getAccountrDetail: async (account) => {
-        try {
-            let code = await web3Service.GetCode(account);
-            if (code.err !== null) {
-                console.log(`failed to query GetCode at accountHelper.getAccountrDetail,${code.err}`);
-                await teleUtils.sendError(`failed to query GetCode at accountHelper.getAccountrDetail,${code.err}`);
-                return -1;
-            }
-            let a = {};
-            a.hash = account.toLowerCase();
-            if (code.code !== "0x") {
-                a.code = code.code;
-                a.isContract = true;
-            } else {
-                a.code = code.code;
-                a.isContract = false;
-            }
+  getAccountDetail: async (account) => {
+    try {
+      const code = await web3Service.GetCode(account);
+      if (code.err !== null) {
+        console.log(`failed to query GetCode at accountHelper.getAccountDetail, ${code.err}`);
+        await teleUtils.sendError(`failed to query GetCode at accountHelper.getAccountDetail, ${code.err}`);
+        return -1;
+      }
+      const a = {};
+      a.hash = account.toLowerCase();
+      a.code = code.code;
+      a.isContract = code.code !== '0x';
 
+      const bal = await web3Service.GetBalance(account);
+      if (bal.err !== null) {
+        console.log(`failed to query GetBalance at accountHelper.getAccountDetail, ${bal.err}`);
+        await teleUtils.sendError(`failed to query GetBalance at accountHelper.getAccountDetail, ${bal.err}`);
+        return -1;
+      }
+      a.balance = bal.bal;
+      a.balanceNumber = Number(bal.bal);
 
-            let bal = await web3Service.GetBalance(account);
-            if (bal.err !== null) {
-                console.log(`failed to query GetBalance at accountHelper.getAccountrDetail,${bal.err}`);
-                await teleUtils.sendError(`failed to query GetBalance at accountHelper.getAccountrDetail,${bal.err}`);
-                return -1;
-            }
-            a.balance = bal.bal;
-            a.balanceNumber = Number(bal.bal);
+      const queryAccountDB = await accountEthModel.findOne({ where: { hash: account.toLowerCase() } });
+      if (!queryAccountDB) {
+        await accountEthModel.create(a);
+        return 1;
+      }
+      await accountEthModel.update(a, { where: { hash: account.toLowerCase() } });
 
-
-            let queryAccountDB = await accountEthModel.findOne({where: {hash: account.toLowerCase()}});
-            if (!queryAccountDB) {
-                await accountEthModel.create(a);
-                return 1;
-            }
-            await accountEthModel.update(a, {where: {hash: account.toLowerCase()}});
-
-            return 1;
-        } catch (e) {
-            console.log(`failed getAccountrDetail,${e}`);
-            await teleUtils.sendError(`failed getAccountrDetail,${e}`);
-            return -1;
-        }
-    },
+      return 1;
+    } catch (e) {
+      console.log(`failed getAccountDetail, ${e}`);
+      await teleUtils.sendError(`failed getAccountDetail, ${e}`);
+      return -1;
+    }
+  },
 };

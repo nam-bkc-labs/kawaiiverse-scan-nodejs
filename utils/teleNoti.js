@@ -1,13 +1,11 @@
 const axios = require('axios');
+const config = require('../config/config');
 
 module.exports = {
-    sendError: async (content) => {
-        try {
-            await axios.get("https://api.telegram.org/bot5345932864:AAHo7Vjp02sJxkJYyHpCURJ2NcoNuXLVk2U/sendMessage?chat_id=-681710789&text=" + encodeURIComponent(content));
-
-
-        } catch (e) {
-
-        }
-    },
+  sendError: async (content) => {
+    try {
+      await axios.get(`https://api.telegram.org/bot${config.telegram.botToken}/sendMessage?chat_id=${config.telegram.chatId}&text=${encodeURIComponent(content)}`);
+    } catch (e) {
+    }
+  },
 };

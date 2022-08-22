@@ -9,13 +9,3 @@ node_modules
 
 # os
 .DS_Store
-
-# Hardhat files
-cache
-artifacts
-.secret
-script.js
-
-version.txt
-config/config.json
-key

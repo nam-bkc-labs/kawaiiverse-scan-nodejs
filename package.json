@@ -22,7 +22,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.0.0",
     "ethereumjs-util": "^6.2.1",
-    "request": "^2.88.2",
+    "joi": "^17.6.0",
     "sequelize": "^6.19.0",
     "web3": "^1.3.6"
   },

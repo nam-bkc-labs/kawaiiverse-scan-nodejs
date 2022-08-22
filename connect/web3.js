@@ -1,8 +1,6 @@
-require('dotenv').config();
-const Web3 = require("web3");
+const Web3 = require('web3');
+const config = require('../config/config')
 
 module.exports = {
-    web3: () => {
-        return new Web3(new Web3.providers.HttpProvider(process.env.RPC_ORAIE));
-    },
+  web3: () => new Web3(new Web3.providers.HttpProvider(config.rpc.oraie)),
 };
