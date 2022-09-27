@@ -5,7 +5,7 @@ const data = require('./data/account.json');
 async function run() {
   for (let i = 0; i < data.length; i++) {
     console.log(`${i}/${data.length}`);
-    const addrCosmos = converter('oraie').toBech32(data[i]);
+    const addrCosmos = converter('orain').toBech32(data[i]);
     const isCheck = await accountDB.findOne({
       where: {
         address: addrCosmos,

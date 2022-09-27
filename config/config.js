@@ -9,7 +9,7 @@ const envVarsSchema = Joi.object()
     DB_USER: Joi.string().required().description('postgres DB user'),
     DB_PASS: Joi.string().required().description('postgres DB password'),
     DB_DIALECT: Joi.string().required().description('postgres DB dialect'),
-    RPC_ORAIE: Joi.string().required().description('rpc oraie'),
+    RPC_ORAIN: Joi.string().required().description('rpc orain'),
     RPC_EVMOS_COSMOS: Joi.string().required().description('rpc evmos cosmos'),
     TELEGRAM_BOT_TOKEN: Joi.string().required().description('telegram bot token'),
     TELEGRAM_CHAT_ID: Joi.string().required().description('telegram chat id'),
@@ -32,7 +32,7 @@ module.exports = {
     dialect: envVars.DB_DIALECT,
   },
   rpc: {
-    oraie: envVars.RPC_ORAIE,
+    orain: envVars.RPC_ORAIN,
     evmosCosmos: envVars.RPC_EVMOS_COSMOS,
   },
   telegram: {

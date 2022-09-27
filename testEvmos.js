@@ -86,9 +86,9 @@ async function test() {
   //
   // // convert address nodejs
   // const converter = require("bech32-converting");
-  // let ethAddr = converter('oraie').toHex('oraie183wxk4cvrkjxn69jfghga5euy79a5v3zsh204g');
+  // let ethAddr = converter('orain').toHex('orain183wxk4cvrkjxn69jfghga5euy79a5v3zsh204g');
   // console.log(ethAddr);
-  // let cosmos = converter('oraie').toBech32(ethAddr)
+  // let cosmos = converter('orain').toBech32(ethAddr)
   // console.log(cosmos);
 
   // console.log(await tokenType.isErc721(data));

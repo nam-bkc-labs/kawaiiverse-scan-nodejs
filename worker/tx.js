@@ -193,7 +193,7 @@ module.exports = {
   },
   debugTxInternal: async (hash, height, timestamp) => {
     try {
-      let data = await axios.post(config.rpc.oraie, {
+      let data = await axios.post(config.rpc.orain, {
         'jsonrpc': '2.0',
         'method': 'debug_traceTransaction',
         'params': [
