@@ -9,3 +9,4 @@ node_modules
 
 # os
 .DS_Store
+config/config.json
